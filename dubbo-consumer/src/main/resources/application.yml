@@ -1,0 +1,25 @@
+server:
+  port: 9200
+
+project:
+  name: spring-cloud-dubbo-consumer
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+    id: dubbo
+  cloud:
+    subscribed-services: spring-cloud-dubbo-provider
+spring:
+  application:
+    name: spring-cloud-dubbo-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        group: dev
+        namespace: 06d25b57-270a-4e67-87f3-a95b29478758
+        username: nacos
+        password: nacos
+  main:
+    allow-bean-definition-overriding: true
