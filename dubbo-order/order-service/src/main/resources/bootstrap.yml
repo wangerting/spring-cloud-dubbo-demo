@@ -1,0 +1,85 @@
+server:
+  port: 9013
+
+spring:
+  application:
+    name: dubbo-order
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: 06d25b57-270a-4e67-87f3-a95b29478758
+        group: dubbo
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        username: nacos
+        password: nacos
+        group: dubbo
+        namespace: 06d25b57-270a-4e67-87f3-a95b29478758
+        refresh-enabled: true
+        extension-configs:
+          - data-id: dubbo-order-dev.yaml
+            group: dubbo
+            refresh: true
+          - data-id: common-db-mybatis-dev.yaml
+            group: dubbo
+            refresh: true
+    # Sentinel 配置项
+    sentinel:
+      # 是否饥饿加载。默认为 false 关闭
+      eager: true
+      transport:
+        # Sentinel 控制台地址
+        dashboard: 127.0.0.1:7070
+  #链路追踪 Sleuth,ZipKin 客户端
+  zipkin:
+    #zipkin 服务端地址
+    base-url: http://127.0.0.1:9411/
+    #让nacos把它当成一个URL，而不要当做服务名
+    discoveryClientEnabled: false
+    sleuth:
+      sampler:
+        #采样的百分比
+        probability: 1.0
+
+#    alibaba:
+#      seata:
+#        tx-service-group: dubbo-order
+
+
+dubbo:
+  scan:
+    base-packages: com.wanget.order.provider
+  protocol:
+    # 协议名称, 指明是 dubbo
+    name: dubbo
+    # 协议端口，-1 表示自增端口，从 20880 开始
+    port: -1
+  registry:
+    # 指定 Dubbo 服务注册中心的地址
+    address: spring-cloud://127.0.0.1:8848
+    group: dubbo
+  cloud:
+    # 设置订阅的应用列表，默认为 * 订阅所有应用
+    subscribed-services: '*'
+  consumer:
+    # 启动时不检查引用服务是否可用
+    check: false
+    filter: tracing
+  provider:
+    filter: tracing
+#枚举所在路径
+mybatis-plus:
+  typeEnumsPackage: com.wanget.order.api.enums.**,com.wanget.model.enums**
+
+#seata:
+#  enabled: true
+#  service:
+#    vgroup-mapping:
+#      dubbo-order : default
+#    grouplist:
+#      default: 127.0.0.1:8091
+#    disable-global-transaction: false
