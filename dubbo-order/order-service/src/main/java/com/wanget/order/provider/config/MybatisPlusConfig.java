@@ -26,8 +26,6 @@ public class MybatisPlusConfig {
     public BlockAttackInnerInterceptor blockAttackInnerInterceptor() {
         return new BlockAttackInnerInterceptor();
     }
-
-
     /**
      * 新的分页插件,一缓和二缓遵循mybatis的规则,需要设置 MybatisConfiguration#useDeprecatedExecutor = false 避免缓存出现问题
      */
@@ -37,8 +35,6 @@ public class MybatisPlusConfig {
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
     }
-
-
     /**
      * ConfigurationCustomizer，这里引用的是MyBatisPlus自定义的一个和MyBatis同名的接口，com.baomidou.mybatisplus.spring.boot.starter.ConfigurationCustomizer，
      * 因此必须使用MyBatisPlus的ConfigurationCustomizer才行

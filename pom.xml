@@ -23,6 +23,7 @@
         <mysql.version>8.0.25</mysql.version>
         <springfox.version>3.0.0</springfox.version>
         <zipkin.brave.version>5.13.3</zipkin.brave.version>
+        <seata.version>1.4.2</seata.version>
     </properties>
 
     <modules>
@@ -110,6 +111,12 @@
                 <groupId>io.zipkin.brave</groupId>
                 <artifactId>brave-instrumentation-dubbo</artifactId>
                 <version>${zipkin.brave.version}</version>
+            </dependency>
+            <!-- seata - 分布式事务 -->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>${seata.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

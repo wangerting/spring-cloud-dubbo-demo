@@ -12,7 +12,10 @@ import com.wanget.order.api.service.WebOrderService;
 import com.wanget.order.provider.dao.WebOrderMapper;
 import com.wanget.shop.api.entity.ProProductEntity;
 import com.wanget.shop.api.service.ProProductService;
+import com.wanget.user.api.service.WebUserService;
+import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 
@@ -30,15 +33,19 @@ import java.util.stream.Collectors;
  * @since 2021-07-19 12:03:02
  */
 @DubboService
+@Slf4j
 public class WebOrderServiceImpl extends ServiceImpl<WebOrderMapper, WebOrderEntity> implements WebOrderService {
 
     @DubboReference
     ProProductService proProductService;
+    @DubboReference
+    WebUserService webUserService;
     @Resource
     WebOrderProductService webOrderProductService;
 
     /**
      * 创建订单
+     * GlobalTransactional - 全局事务控制
      *
      * @param order
      * @return boolean
@@ -47,8 +54,9 @@ public class WebOrderServiceImpl extends ServiceImpl<WebOrderMapper, WebOrderEnt
      * @date 2021/7/23 6:20 下午
      */
     @Override
-    @GlobalTransactional(rollbackFor = Exception.class)//全局事务控制
+    @GlobalTransactional(rollbackFor = Exception.class)
     public boolean createOrder(OrderDto order) {
+        log.info("开始全局事务，XID = {}", RootContext.getXID());
         WebOrderEntity orderEntity = new WebOrderEntity();
         orderEntity.setUserId(order.getUserId());
         orderEntity.setUsername(order.getUsername());
@@ -98,7 +106,9 @@ public class WebOrderServiceImpl extends ServiceImpl<WebOrderMapper, WebOrderEnt
                 orderProducts.add(orderProductEntity);
             }
             if (webOrderProductService.saveBatch(orderProducts)) {
-                return proProductService.batchReduceInventory(products);
+                if (proProductService.batchReduceInventory(products)) {
+                    return webUserService.deduction(order.getUserId(), BigDecimal.valueOf(10.2d));
+                }
             }
         }
         return false;

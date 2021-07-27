@@ -51,6 +51,9 @@ spring:
 
 
 dubbo:
+  application:
+    id: dubbo-order
+    name: dubbo-order
   scan:
     base-packages: com.wanget.order.provider
   protocol:
@@ -75,11 +78,29 @@ dubbo:
 mybatis-plus:
   typeEnumsPackage: com.wanget.order.api.enums.**,com.wanget.model.enums**
 
-#seata:
-#  enabled: true
-#  service:
-#    vgroup-mapping:
-#      dubbo-order : default
-#    grouplist:
-#      default: 127.0.0.1:8091
-#    disable-global-transaction: false
+### 分布式事务服务Seata
+seata:
+  #开启seata支持
+  enabled: true
+  #这里需要和config.txt 文件中的service.vgroupMapping.my_test_tx_group=default一致
+  tx-service-group: seata_dubbo_service
+  enable-auto-data-source-proxy: true
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      namespace: seate-dev
+      group: SEATA_GROUP
+      username: nacos
+      password: nacos
+  config:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      namespace: seate-dev
+      group: SEATA_GROUP
+      username: nacos
+      password: nacos
+  service:
+    vgroup-mapping:
+      seata_dubbo_service: default

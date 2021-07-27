@@ -7,8 +7,10 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.apache.ibatis.type.JdbcType;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Erting.Wang
@@ -16,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2021/7/23 10:30 上午
  */
 @Configuration
+@EnableTransactionManagement
 public class MybatisPlusConfig {
     /**
      * 防止 修改与删除时对全表进行操作
@@ -26,8 +29,6 @@ public class MybatisPlusConfig {
     public BlockAttackInnerInterceptor blockAttackInnerInterceptor() {
         return new BlockAttackInnerInterceptor();
     }
-
-
     /**
      * 新的分页插件,一缓和二缓遵循mybatis的规则,需要设置 MybatisConfiguration#useDeprecatedExecutor = false 避免缓存出现问题
      */
@@ -38,13 +39,6 @@ public class MybatisPlusConfig {
         return interceptor;
     }
 
-
-    /**
-     * ConfigurationCustomizer，这里引用的是MyBatisPlus自定义的一个和MyBatis同名的接口，com.baomidou.mybatisplus.spring.boot.starter.ConfigurationCustomizer，
-     * 因此必须使用MyBatisPlus的ConfigurationCustomizer才行
-     *
-     * @return
-     */
     public ConfigurationCustomizer configurationCustomizer() {
         return new ConfigurationCustomizer() {
             @Override
@@ -56,4 +50,5 @@ public class MybatisPlusConfig {
             }
         };
     }
+
 }
