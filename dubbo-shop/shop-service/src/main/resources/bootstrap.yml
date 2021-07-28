@@ -3,8 +3,6 @@ server:
 spring:
   application:
     name: dubbo-shop
-  main:
-    allow-bean-definition-overriding: true
   cloud:
     nacos:
       discovery:
@@ -23,79 +21,27 @@ spring:
           - data-id: dubbo-shop-dev.yaml
             group: dubbo
             refresh: true
+            ### 数据库
           - data-id: common-db-mybatis-dev.yaml
             group: dubbo
             refresh: true
-    # Sentinel 配置项
-    sentinel:
-      # 是否饥饿加载。默认为 false 关闭
-      eager: true
-      transport:
-        # Sentinel 控制台地址
-        dashboard: 127.0.0.1:7070
-  #链路追踪 Sleuth,ZipKin 客户端
-  zipkin:
-    #zipkin 服务端地址
-    base-url: http://127.0.0.1:9411/
-    #让nacos把它当成一个URL，而不要当做服务名
-    discoveryClientEnabled: false
-    sleuth:
-      sampler:
-        #采样的百分比
-        probability: 1.0
-#    alibaba:
-#      seata:
-#        tx-service-group: dubbo-shop
+            ### 分布式事务服务Seata
+          - data-id: common-seata-dev.yaml
+            group: dubbo
+            refresh: true
+            # 链路追踪 Sleuth,ZipKin 客户端
+          - data-id: common-sentinel-zipkin-dev.yaml
+            group: dubbo
+            refresh: true
+            # dubbo 配置信息
+          - data-id: common-dubbo-dev.yaml
+            group: dubbo
+            refresh: true
 
 dubbo:
   scan:
     base-packages: com.wanget.shop.provider
-  protocol:
-    # 协议名称, 指明是 dubbo
-    name: dubbo
-    # 协议端口，-1 表示自增端口，从 20880 开始
-    port: -1
-  registry:
-    # 指定 Dubbo 服务注册中心的地址
-    address: spring-cloud://127.0.0.1:8848
-    group: dubbo
-  cloud:
-    # 设置订阅的应用列表，默认为 * 订阅所有应用
-    subscribed-services: '*'
-  consumer:
-    # 启动时不检查引用服务是否可用
-    check: false
-    filter: tracing
-  provider:
-    filter: tracing
 
 #枚举所在路径
 mybatis-plus:
   typeEnumsPackage: com.wanget.shop.api.enums.**,com.wanget.model.enums**
-
-### 分布式事务服务Seata
-seata:
-  #开启seata支持
-  enabled: true
-  #这里需要和config.txt 文件中的service.vgroupMapping.my_test_tx_group=default一致
-  tx-service-group: seata_dubbo_service
-  enable-auto-data-source-proxy: true
-  registry:
-    type: nacos
-    nacos:
-      server-addr: 127.0.0.1:8848
-      namespace: seate-dev
-      group: SEATA_GROUP
-      username: nacos
-      password: nacos
-  config:
-    type: nacos
-    nacos:
-      server-addr: 127.0.0.1:8848
-      namespace: seate-dev
-      group: SEATA_GROUP
-      username: nacos
-      password: nacos
-  service:
-    vgroup-mapping:
-      seata_dubbo_service: default

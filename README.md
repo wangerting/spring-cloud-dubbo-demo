@@ -1,7 +1,13 @@
 # spring-cloud-dubbo-demo
-spring-cloud-dubbo-demo 是一个 微服务 学习并搭建好的分布式项目；里面包含了
-   springcloud+dubbo+nacos+sentinel+Sleuth+ZipKin+seata+mybatis-plus 的整合
-dubbo-2.7.8，sentinel-1.8.2，Zinkin-2.22.1，seata-1.4.2，mybatis-plus-3.4.2
+   spring-cloud-dubbo-demo 是一个 微服务框架整合项目 
+   springcloud+gateway+dubbo+nacos+sentinel+Sleuth+ZipKin+seata+mybatis-plus 的整合
+   nacos-2.0.1
+   dubbo-2.7.8
+   sentinel-1.8.2
+   Zinkin-2.22.1
+   seata-1.4.2
+   mybatis-plus-3.4.2
+   swagger2
 
 # docs 项目说明
     db 数据库脚本
