@@ -6,4 +6,4 @@ nohup java -Dserver.port=7070 -Dcsp.sentinel.dashboard.server=localhost:7070 -Dp
 # 启动 zipkin 链路跟踪
 nohup java -jar zipkin.jar >> ./logs/zipkin.out &
 # 启动 seata 分布式事务
-nohup sh ./seata-server-1.4.2/bin/seata-server.sh -p 8091 -m naco >> ./logs/seata.out &
+nohup sh ./seata-server-1.4.2/bin/seata-server.sh -p 8091 -m file >> ./logs/seata.out &
