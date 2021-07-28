@@ -14,6 +14,7 @@
     seata 安装配置文件
     shell 插件启动脚本汇总(nacos,sentinel,Zinkin,seata)
     zipkin 数据持久化脚本
+      nacos_config_export_20210728175553.zip 配置中心 配置文件导出包
 
 # nacos
     版本：2.0.1；下载地址：https://github.com//alibaba/nacos/releases/download/2.0.1/nacos-server-2.0.1.tar.gz
