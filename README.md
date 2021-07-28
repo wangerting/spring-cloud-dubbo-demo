@@ -2,29 +2,31 @@
 spring-cloud-dubbo-demo 是一个 微服务 学习并搭建好的分布式项目；里面包含了
    springcloud+dubbo+nacos+sentinel+Sleuth+ZipKin+seata+mybatis-plus 的整合
 dubbo-2.7.8，sentinel-1.8.2，Zinkin-2.22.1，seata-1.4.2，mybatis-plus-3.4.2
-docs 项目说明
-   db 数据库脚本
-   seata 安装配置文件
-   shell 插件启动脚本汇总(nacos,sentinel,Zinkin,seata)
 
-nacos{
-   版本：2.0.1；下载地址：https://github.com//alibaba/nacos/releases/download/2.0.1/nacos-server-2.0.1.tar.gz
-   注册和配置中心
-   启动命令：sh startup.sh -m standalone
-   账户密码
-      nacos
-      nacos
-}
-sentinel{
-   版本：1.8.2；下载地址：https://github.com//alibaba/Sentinel/releases/download/1.8.2/sentinel-dashboard-1.8.2.jar
-   服务管理工具（服务治理，容错，流控）
-   启动命令：java -Dserver.port=7070 -Dcsp.sentinel.dashboard.server=localhost:7070 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar
-   启动命令(后台启动)：nohup java -Dserver.port=7070 -Dcsp.sentinel.dashboard.server=localhost:7070 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar &
-   账户密码
-      sentinel
-      sentinel
-}
-seata{
+# docs 项目说明
+    db 数据库脚本
+    seata 安装配置文件
+    shell 插件启动脚本汇总(nacos,sentinel,Zinkin,seata)
+    zipkin 数据持久化脚本
+
+# nacos
+    版本：2.0.1；下载地址：https://github.com//alibaba/nacos/releases/download/2.0.1/nacos-server-2.0.1.tar.gz
+    注册和配置中心
+    启动命令：sh startup.sh -m standalone
+    账户密码
+        nacos
+        nacos
+
+# sentinel
+    版本：1.8.2；下载地址：https://github.com//alibaba/Sentinel/releases/download/1.8.2/sentinel-dashboard-1.8.2.jar
+    服务管理工具（服务治理，容错，流控）
+    启动命令：java -Dserver.port=7070 -Dcsp.sentinel.dashboard.server=localhost:7070 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar
+    启动命令(后台启动)：nohup java -Dserver.port=7070 -Dcsp.sentinel.dashboard.server=localhost:7070 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar &
+    账户密码
+        sentinel
+        sentinel
+
+# seata
     版本：1.4.2；下载地址：https://github.com/seata/seata/releases/download/v1.4.2/seata-server-1.4.2.tar.gz
     分布式事务
     安装步骤
@@ -91,13 +93,12 @@ seata{
 		    vgroup-mapping:
 		      seata_dubbo_service: default
     }
-}
 
-Zinkin{ Zipkin — 微服务链路跟踪.
-   分布式实时数据追踪系统
-   下载路径：curl -sSL https://zipkin.io/quickstart.sh | bash -s
-   启动命令：java -jar zipkin.jar   
-   启动命令(后台启动)：nohup java -jar zipkin.jar &
-   docker启动命令：docker run -d -p 9411:9411 openzipkin/zipkin
-   成功启动后通过访问 http://localhost:9411
-}
+# Zinkin  — 微服务链路跟踪.
+    分布式实时数据追踪系统
+    下载路径：curl -sSL https://zipkin.io/quickstart.sh | bash -s
+    启动命令：java -jar zipkin.jar   
+    启动命令(后台启动)：nohup java -jar zipkin.jar &
+    docker启动命令：docker run -d -p 9411:9411 openzipkin/zipkin
+    成功启动后通过访问 http://localhost:9411
+    数据持久化启动命令：java -jar zipkin.jar --STORAGE_TYPE=mysql --MYSQL_HOST=127.0.0.1 --MYSQL_TCP_PORT=3306 --MYSQL_DB=zipkin --MYSQL_USER=root --MYSQL_PASS='Tom579#$%^&'
