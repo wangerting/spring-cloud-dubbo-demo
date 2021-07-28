@@ -1,8 +1,10 @@
 package com.wanget.order.api.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author Erting.Wang
@@ -27,4 +29,8 @@ public class ProductDto implements Serializable {
      * 个数
      */
     private Integer quantity;
+    /**价格*/
+    private BigDecimal price;
+    /**足销价*/
+    private BigDecimal salePrice;
 }

@@ -10,10 +10,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 /**
  * @author wangerting
  */
-@EnableDubbo
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableAutoDataSourceProxy
+@EnableDubbo
 public class AdminServiceApplication {
 
     public static void main(String[] args) {

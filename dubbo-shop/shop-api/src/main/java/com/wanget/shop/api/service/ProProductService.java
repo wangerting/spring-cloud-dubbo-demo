@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wanget.shop.api.entity.ProProductEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (ProProduct)表服务接口
@@ -15,11 +16,11 @@ public interface ProProductService extends IService<ProProductEntity> {
     /**
      * 批量减库存
      *
-     * @param entityList
+     * @param productMap
      * @return boolean
      * @throws
      * @author Erting.Wang
      * @date 2021/7/26 11:00 上午
      */
-    boolean batchReduceInventory(List<ProProductEntity> entityList);
+    boolean batchReduceInventory(Map<Integer, Integer> productMap);
 }

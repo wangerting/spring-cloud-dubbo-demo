@@ -49,11 +49,13 @@ public class WebUserServiceImpl extends ServiceImpl<WebUserMapper, WebUserEntity
     @Override
     public boolean deduction(Integer userId, BigDecimal money) {
         log.info("userId={},money={}", userId, money);
-        if (money.compareTo(BigDecimal.TEN) > 0) {
-            throw new RuntimeException("用户扣款失败，发生异常了");
+        WebUserEntity userEntity = getById(userId);
+        if (money.compareTo(userEntity.getBalance()) > 0) {
+            String msg = String.format("用户余额不足，扣款失败；扣款金额=%s, 余额=%s", money, userEntity.getBalance());
+            throw new RuntimeException(msg);
         }
-        log.info("扣款成功，金额={}", money);
-        return true;
-
+        userEntity.setBalance(userEntity.getBalance().subtract(money));
+        log.info("扣款成功，扣款金额={}", money);
+        return updateById(userEntity);
     }
 }

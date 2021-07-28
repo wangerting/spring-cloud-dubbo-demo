@@ -9,6 +9,7 @@ import com.wanget.user.api.enums.WebUserStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -54,5 +55,11 @@ public class WebUserEntity implements Serializable {
 
     @TableField("`utime`")
     private Date utime;
+
+    /**
+     * 余额
+     */
+    @TableField("`balance`")
+    private BigDecimal balance;
 
 }

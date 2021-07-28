@@ -69,18 +69,17 @@ public class WebOrderServiceImpl extends ServiceImpl<WebOrderMapper, WebOrderEnt
                 .map(ProductDto::getProductId).collect(Collectors.toList());
         Map<Integer, Integer> productMap = order.getProducts().stream()
                 .collect(Collectors.toMap(ProductDto::getProductId, a -> a.getQuantity()));
-        List<ProProductEntity> products = proProductService.listByIds(productIds);
         BigDecimal amount = BigDecimal.ZERO;
         BigDecimal amountPayable = BigDecimal.ZERO;
-
-        for (ProProductEntity product : products) {
-            Integer quantity = productMap.get(product.getId());
+        /**
+         * 计算订单金额
+         */
+        for (ProductDto product : order.getProducts()) {
+            Integer quantity = product.getQuantity();
             amount = amount.add(product.getPrice()
                     .multiply(BigDecimal.valueOf(quantity)));
             amountPayable = amountPayable.add(product.getSalePrice()
                     .multiply(BigDecimal.valueOf(quantity)));
-            product.setStock(product.getStock() - quantity);
-            product.setUtime(new Date());
         }
         orderEntity.setAmount(amount);
         orderEntity.setAmountPayable(amountPayable);
@@ -88,15 +87,15 @@ public class WebOrderServiceImpl extends ServiceImpl<WebOrderMapper, WebOrderEnt
 
         if (baseMapper.insert(orderEntity) > 0) {
             List<WebOrderProductEntity> orderProducts = Lists.newArrayList();
-            for (ProProductEntity product : products) {
-                Integer quantity = productMap.get(product.getId());
+            for (ProductDto product : order.getProducts()) {
+                Integer quantity = product.getQuantity();
                 WebOrderProductEntity orderProductEntity = new WebOrderProductEntity();
                 orderProductEntity.setOrderId(orderEntity.getId());
-                orderProductEntity.setProductId(product.getId());
+                orderProductEntity.setProductId(product.getProductId());
                 orderProductEntity.setShopId(product.getShopId());
                 orderProductEntity.setUserId(order.getUserId());
-                orderProductEntity.setProductName(product.getName());
-                orderProductEntity.setQuantity(productMap.get(product.getId()));
+                orderProductEntity.setProductName(product.getProductName());
+                orderProductEntity.setQuantity(quantity);
                 orderProductEntity.setAmount(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
                 orderProductEntity.setAmountPayable(product.getSalePrice().multiply(BigDecimal.valueOf(quantity)));
                 orderProductEntity.setCtime(new Date());
@@ -106,8 +105,8 @@ public class WebOrderServiceImpl extends ServiceImpl<WebOrderMapper, WebOrderEnt
                 orderProducts.add(orderProductEntity);
             }
             if (webOrderProductService.saveBatch(orderProducts)) {
-                if (proProductService.batchReduceInventory(products)) {
-                    return webUserService.deduction(order.getUserId(), BigDecimal.valueOf(10.2d));
+                if (proProductService.batchReduceInventory(productMap)) {
+                    return webUserService.deduction(order.getUserId(), orderEntity.getAmountPayable());
                 }
             }
         }
