@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.wanget.model.enums.CommonStatusEnum;
+import com.wanget.cms.api.enums.CmsArticleStatusEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -55,8 +55,8 @@ public class CmsArticleEntity implements Serializable {
      * 状态，0：禁用，1：启用
      */
     @TableField("`status`")
-    @ApiModelProperty("状态，0：禁用，1：启用")
-    private CommonStatusEnum status;
+    @ApiModelProperty("状态，1：待审核，2：审核中，3：审核失败，4：发布")
+    private CmsArticleStatusEnum status;
     /**
      * 是否推荐
      */
