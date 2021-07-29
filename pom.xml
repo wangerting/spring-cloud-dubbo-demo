@@ -24,6 +24,8 @@
         <springfox.version>3.0.0</springfox.version>
         <zipkin.brave.version>5.13.3</zipkin.brave.version>
         <seata.version>1.4.2</seata.version>
+        <commons.lang.version>2.6</commons.lang.version>
+        <joda.time.version>2.10.5</joda.time.version>
     </properties>
 
     <modules>
@@ -117,6 +119,18 @@
                 <groupId>io.seata</groupId>
                 <artifactId>seata-spring-boot-starter</artifactId>
                 <version>${seata.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons.lang.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda.time.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

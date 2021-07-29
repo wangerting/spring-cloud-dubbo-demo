@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (WebUserinfo)表实体类
@@ -33,5 +34,9 @@ public class WebUserinfoEntity implements Serializable {
     private String birthday;
     @TableField("`identity_number`")
     private String identityNumber;
+    @TableField("`ctime`")
+    private Date ctime;
 
+    @TableField("`utime`")
+    private Date utime;
 }

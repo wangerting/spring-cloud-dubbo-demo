@@ -1,4 +1,4 @@
-package com.mcy.cloud.gateway;
+package com.wanget.cloud.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

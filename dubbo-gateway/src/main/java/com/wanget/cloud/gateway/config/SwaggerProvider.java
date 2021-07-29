@@ -1,4 +1,4 @@
-package com.mcy.cloud.gateway.config;
+package com.wanget.cloud.gateway.config;
 
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;

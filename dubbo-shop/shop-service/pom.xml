@@ -15,6 +15,12 @@
     <dependencies>
         <dependency>
             <groupId>com.wanget</groupId>
+            <artifactId>dubbo-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.wanget</groupId>
             <artifactId>shop-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

@@ -1,4 +1,4 @@
-package com.mcy.cloud.gateway.config;
+package com.wanget.cloud.gateway.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

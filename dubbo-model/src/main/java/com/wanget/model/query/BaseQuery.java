@@ -1,9 +1,12 @@
 package com.wanget.model.query;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Erting.Wang
@@ -23,6 +26,16 @@ public class BaseQuery implements Serializable {
      */
     @ApiModelProperty("每页个数")
     private Integer pageSize;
+    /**
+     * 创建起始时间
+     */
+    @ApiModelProperty("创建起始时间")
+    private Date startTime;
+    /**
+     * 创建结束时间
+     */
+    @ApiModelProperty("创建结束时间")
+    private Date endTime;
 
     public BaseQuery() {
         this.page = 1;

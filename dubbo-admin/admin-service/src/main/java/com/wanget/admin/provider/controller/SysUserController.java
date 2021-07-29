@@ -1,59 +1,85 @@
 package com.wanget.admin.provider.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wanget.model.query.BaseQuery;
+import com.wanget.model.resp.RespModel;
+import com.wanget.model.utils.DateUtils;
 import com.wanget.admin.api.entity.SysUserEntity;
 import com.wanget.admin.api.service.SysUserService;
-import com.wanget.user.api.entity.WebUserEntity;
-import com.wanget.user.api.service.WebUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 /**
+ * (SysUser)表控制层
+ *
  * @author Erting.Wang
- * @desciption 类说明
- * @date 2021/7/22 6:07 下午
+ * @since 2021-07-29 14:12:57
  */
 @RestController
 @RequestMapping("/sysUser")
-@Api(value = "sysUser", tags = "系统管理员相关接口")
+@Api(value = "sysUser", tags = "管理员相关接口")
 @Slf4j
 public class SysUserController {
-
-    @DubboReference
-    WebUserService webUserService;
+    /**
+     * 服务对象
+     */
     @Resource
-    SysUserService sysUserService;
+    private SysUserService sysUserService;
 
-    @GetMapping("/helloAdmin")
-    @ApiOperation(value = "hellAdmin|王二廷|540805105@qq.com")
-    public String helloAdmin(String name) {
-        return sysUserService.hello(name);
+    @GetMapping("/get/{id}")
+    @ApiOperation(value = "获取管理员详情|王二廷|540805105@qq.com")
+    public RespModel<SysUserEntity> get(@PathVariable Long id) {
+        SysUserEntity entity = sysUserService.getById(id);
+        log.info("entity={}", entity);
+        return RespModel.OK(entity);
     }
 
-    @GetMapping("/helloWeb")
-    @ApiOperation(value = "helloWeb|王二廷|540805105@qq.com")
-    public String hello(String name) {
-        return webUserService.hello(name);
+    @GetMapping("/delete/{id}")
+    @ApiOperation(value = "删除管理员|王二廷|540805105@qq.com")
+    public RespModel<Boolean> delete(@PathVariable Long id) {
+        return RespModel.OK(sysUserService.removeById(id));
     }
 
-    @GetMapping("/getWebUser/{id}")
-    @ApiOperation(value = "getWebUser|王二廷|540805105@qq.com")
-    public WebUserEntity getWebUser(@PathVariable Long id) {
-        log.info("web-user-id={}", id);
-        return webUserService.getById(id);
+    @PostMapping("/save")
+    @ApiOperation(value = "添加管理员|王二廷|540805105@qq.com")
+    public RespModel<SysUserEntity> save(@RequestBody SysUserEntity entity) {
+        log.info("entity={}", entity);
+        if (sysUserService.save(entity)) {
+            return RespModel.OK(entity);
+        }
+        return RespModel.ERROR(null);
     }
 
-    @GetMapping("/getAdminUser/{id}")
-    @ApiOperation(value = "getAdminUser|王二廷|540805105@qq.com")
-    public SysUserEntity getAdminUser(@PathVariable Long id) {
-        log.info("admin-user-id={}", id);
-        return sysUserService.getById(id);
+    @PostMapping("/update")
+    @ApiOperation(value = "更新管理员信息|王二廷|540805105@qq.com")
+    public RespModel<SysUserEntity> update(@RequestBody SysUserEntity entity) {
+        log.info("entity={}", entity);
+        if (sysUserService.updateById(entity)) {
+            return RespModel.OK(entity);
+        }
+        return RespModel.ERROR(null);
     }
+
+    @PostMapping("/page")
+    @ApiOperation(value = "获取管理员列表|王二廷|540805105@qq.com")
+    public RespModel<Page<SysUserEntity>> get(@RequestBody BaseQuery query) {
+        log.info("query={}", query);
+        Page<SysUserEntity> page = new Page<>(query.getPage(), query.getPageSize());
+        LambdaQueryWrapper<SysUserEntity> wrapper = new LambdaQueryWrapper<SysUserEntity>();
+        if (Objects.nonNull(query.getStartTime())) {
+            wrapper.ge(SysUserEntity::getCtime, DateUtils.firstMoment(query.getStartTime()));
+        }
+        if (Objects.nonNull(query.getEndTime())) {
+            wrapper.le(SysUserEntity::getCtime, DateUtils.firstMoment(query.getEndTime()));
+        }
+        Page<SysUserEntity> entityIPage = sysUserService.page(page, wrapper);
+        return RespModel.OK(entityIPage);
+    }
+
 }

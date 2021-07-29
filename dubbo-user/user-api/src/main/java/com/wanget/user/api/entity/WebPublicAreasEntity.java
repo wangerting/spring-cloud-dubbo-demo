@@ -9,6 +9,7 @@ import com.wanget.user.api.enums.WebAreaTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 各国城市列表(WebPublicAreas)表实体类
@@ -41,5 +42,10 @@ public class WebPublicAreasEntity implements Serializable {
     /**状态：1：启用，2：禁用*/
     @TableField("`status`")
     private Object status;
+    @TableField("`ctime`")
+    private Date ctime;
+
+    @TableField("`utime`")
+    private Date utime;
 
 }
