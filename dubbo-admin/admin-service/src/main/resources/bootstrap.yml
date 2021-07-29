@@ -44,8 +44,3 @@ spring:
 dubbo:
   scan:
     base-packages: com.wanget.admin.provider
-
-#枚举所在路径
-mybatis-plus:
-  typeEnumsPackage: com.wanget.admin.api.enums.**,com.wanget.model.enums**
-
